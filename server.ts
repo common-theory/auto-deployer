@@ -18,7 +18,7 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
 });
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
   child_process.exec(`
-    wget https://raw.githubusercontent.com/common-theory/infrastructure/master/docker-compose.yaml -O /tmp/docker-compose.yaml
+    wget https://raw.githubusercontent.com/common-theory/infrastructure/master/docker-compose.yaml -O /tmp/docker-compose.yaml && \
     docker stack deploy --compose-file /tmp/docker-compose.yaml ctheory
     `, (err, stdout, stderr) => {
       if (err) {
