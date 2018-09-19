@@ -2,7 +2,7 @@ import express from 'express';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 dotenv.config({});
-import { exec } from 'child_process';
+import child_process from 'child_process';
 
 const app = express();
 
@@ -17,7 +17,7 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
   }
 });
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-  exec(`
+  child_process.exec(`
     wget https://raw.githubusercontent.com/common-theory/infrastructure/master/docker-compose.yaml -O /tmp/docker-compose.yaml
     docker stack deploy --compose-file /tmp/docker-compose.yaml ctheory
     `, (err, stdout, stderr) => {
