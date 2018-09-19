@@ -17,7 +17,16 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
   }
 });
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-  res.send('Hello World');
+  exec(`
+    wget https://raw.githubusercontent.com/common-theory/infrastructure/master/docker-compose.yaml -O /tmp/docker-compose.yaml
+    docker stack deploy --compose-file /tmp/docker-compose.yaml ctheory
+    `, (err, stdout, stderr) => {
+      if (err) {
+        next(stderr);
+      } else {
+        res.send(stdout);
+      }
+    });
 });
 
 app.listen(3000, () => console.log('auto-deployer listening on port 3000'));
